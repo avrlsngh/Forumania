@@ -15,11 +15,11 @@
     
     <div class="row text-center">
         <div class="col align-self-center">
-            <img src="{% static '/svg/signup_illust.svg' %}" alt="" style="height: 280px; width: 480px;">
+            <img src="{% static '/svg/signup_illust.svg' %}" alt="" id="signup_illust">
         </div>
         </div>
 
-    <form action="/accounts/signup/" method="post" class="site-form mt-5 h-100">
+    <form action="/accounts/signup/" method="post" class="site-form mt-3 h-100 text-center">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Signup">
@@ -27,5 +27,5 @@
 {% endblock %}
 
 {% block auth_button %}
-<a class="btn btn-primary ml-auto" role="button" href="{% url 'accounts:login' %}">Sign In</a>
+<a class="btn ml-auto" style="background-color: #7B6FB0; color: white;" role="button" href="{% url 'accounts:login' %}">Sign In</a>
 {% endblock %}

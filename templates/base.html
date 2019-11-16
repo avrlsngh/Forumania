@@ -9,32 +9,30 @@
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'styles.css'%}">
-    
+    <script src="https://kit.fontawesome.com/72255e29fa.js" crossorigin="anonymous"></script>
     <title>
         {% block title %}
         {% endblock %}
     </title>
 </head>
-<body>
+<body style="background-color:#C6C8C9;">
     <nav class="navbar navbar-dark navbar-expand bg-dark text-light navigation-clean">
 
         <div class="container">
-            <a class="navbar-brand text-primary" href="{% url 'homepage' %}">MATERNAUT</a>
-            <div class="collapse navbar-collapse " id="navbarNav">
-                    <ul class="navbar-nav">
-                      {% block navigation %}
-                      {% endblock %}
-                    </ul>
-                  </div>
+            <a class="navbar-brand" style="color: #7B6FB0;" href="{% url 'homepage' %}"><h2 id="logo_title">FORUMANIA</h2></a>
 
-            <div id="navcol-1">
+            <div id="navcol-1" class="d-flex flex-row bd-highlight">
                 {% block auth_button %}
                 {% endblock %}
             </div>
         </div>
     </nav>
-    <section class="features-icons text-center">
-            <div class="container">
+    <section class="features-icons align-center">
+            <div class="container" id="section_container">
+                <nav aria-label="breadcrumb">
+                        {% block navigation %}
+                        {% endblock %}
+                </nav>
                 {% block content %}
                 {% endblock %}
             </div>

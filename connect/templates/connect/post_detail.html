@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+
+{% block content %}
+
+<script>
+        window.onload = function(){
+            // document.getElementById('id_content').setAttribute("class", "form-control");
+            document.getElementById('id_content').setAttribute("size", 45);
+            document.getElementById('id_content').setAttribute("placeholder", "Add a public comment...");
+            document.getElementById('id_content').setAttribute("style", "width: 50%; border: none; border-bottom: 1px solid; outline:none;background:transparent");
+
+        }
+        </script>
+
+<div id="post_detail">
+    <div style="display: flex; justify-content: space-between;">
+        <h1 id="post_detail_title">{{post.title}}</h1>
+    </div>
+    <p class="mb-0"><small class="text-muted"><i class="fa fa-eye"></i>&nbsp;&nbsp;{{post.views}}</small></p>
+    <p class="mt-0"><small class="text-muted">{{post.created_at}}</small></p>
+    <h4 id="post_detail_content">{{post.content}}</h4>
+    <h5 class="text-right mb-2" id="post_detail_user"><i class="fa fa-user" aria-hidden="true"></i>&nbsp; <i class="text-muted">{{post.user}}</i></h5>
+</div>
+
+<div id="comment_section" class="p-0">
+    <hr style="padding-top: 0; margin-top: 0;">
+    <h4 style="padding: 0; margin-bottom: 30px;" id="post_detail_comment_heading">{{comment_count}} Comments</h4>
+    <form action="{% url 'connect:add_comment' post.id %}" method="post" id="comment_form" style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 30px;">
+        {%csrf_token%}
+        {{comment_form}}
+        <button type="submit" class="btn btn-light ml-2" id="upload_btn">COMMENT</button>
+    </form>
+
+    <div id="comments_published">
+        {% for comment in comments %}
+            <h5 id="post_detail_comment">{{comment.content}}</h5>
+            <p><small class="text-muted">{{comment.created_at}} • {{comment.user}}</small></p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block auth_button %}
+
+<!-- <button type="button" class="btn btn-secondary mr-5" data-toggle="modal" data-target="#uploadContentModal">Upload</button> -->
+
+<form action="{% url 'accounts:logout' %}" method="post">
+    {% csrf_token %}
+<button class="btn btn-danger ml-auto" type="submit" id="logout_btn">Logout</button>
+</form>
+{% endblock %}
+
+
+{% block navigation %}
+<ol class="breadcrumb m-0 pl-0 pr-0" style="background-color: #C6C8C9;">
+    <li class="breadcrumb-item"><a href="{% url 'connect:home' %}" style="color: #7B6FB0;">Home</a></li>
+    <li class="breadcrumb-item active text-secondary" aria-current="page">{{post.title}}</li>
+</ol>
+{% endblock %}

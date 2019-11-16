@@ -1,44 +1,76 @@
 {% extends 'base.html' %}
 {% load static from staticfiles %}
 
-{% block page_header %}
-    <h3>Connect</h3>
-{% endblock %}
 {% block content %}
-{% csrf_token %}
-    <h1>Connect with single parents in your city!</h1>
-    <div id="babysitters" class="col-md-12 text-center">
-        {% for user in users %}
-            <div class="card" style="width: 18rem; align-items: center; justify-content: center; display: flex;">
-            <div class="card-body">
-                <h5 class="card-title">{{user.user}}</h5>
-                <p class="card-text"><small class="text-muted">{{user.city}}</small></p>
-                <a href="#" class="btn btn-primary">Connect</a>
-            </div>
-            </div>
-        {% endfor %}
+<script>
+window.onload = function(){
+    document.getElementById('id_title').setAttribute("class", "form-control");
+    document.getElementById('id_content').setAttribute("class", "form-control mt-3 mb-3");
+    document.getElementById('id_title').setAttribute("placeholder", "Enter the title");
+    document.getElementById('id_content').setAttribute("placeholder", "Write Something Here...");
+}
+</script>
+     <!-- <form action="{% url 'connect:home' %}" method="get" class="">
+         <div class="input-group" style="display: flex; justify-content: center;">
+        {{ filter.form.as_p }}
+        <div class="input-group-btn">
+            <button class="btn btn-light btn-lg" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
     </div>
+    </form> -->
+    <div class="text-center">
+        <img src="{% static '/svg/posts.svg'%}" alt="" id="posts_svg">
+        </div>
+    <div id="babysitters" class="col-md-12">
+        
+        {% for post in filter.qs %}
+        <div class="card" style="width: 100%; align-items: flex-start; justify-content: flex-start; display: flex;">
+            <div class="card-body shadow-lg bg-white rounded">
+                <h3 class="card-title">{{post.title}}</h3>
+                <p class="card-text"><small class="text-muted">{{post.created_at}}</small></p>
+                <h5 class="card-text">{{post.snippet}}</h5>
+                <p class="card-text"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;{{post.user}}</p>
+                
+
+                <a href="/connect/{{post.id}}" style="color: #7B6FB0;">View full post <i class="fa fa-arrow-right"></i></a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="modal fade" id="uploadContentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Write Your Thoughts</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: transparent;">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <form action="{% url 'connect:home' %}" method="post" id="upload_form">
+                            {% csrf_token %}
+                            {{form}}
+                            <div class="text-right">
+                       
+                        <button type="submit" class="btn" id="publish_btn"><i class='fas fa-upload' style="color: aliceblue;"></i> Publish</button>
+                    </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
 {% endblock %}
 
 {% block auth_button %}
+
+<button type="button" class="btn" id="upload_btn" data-toggle="modal" data-target="#uploadContentModal">Upload</button>
+
 <form action="{% url 'accounts:logout' %}" method="post">
     {% csrf_token %}
-<button class="btn btn-danger ml-auto" type="submit">Logout</button>
+<button class="btn btn-danger ml-auto" type="submit" id="logout_btn">Logout</button>
 </form>
-{% endblock %}
-
-
-{% block navigation %}
-    <li class="nav-item">
-    <a class="nav-link" href="{% url 'home:home' %}">Home</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="{% url 'childcare:home' %}">Babysitters</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link" href="{% url 'learn:home' %}">Skills <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item active">
-    <a class="nav-link" href="{% url 'connect:home' %}">Connect</a>
-    </li>
 {% endblock %}
